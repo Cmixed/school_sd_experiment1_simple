@@ -15,10 +15,12 @@ public:
 	[[nodiscard]] double value(const double val) const
 	{
 		if (val == 0) {
-			return this->ratio;
-		} else {
-			return (this->ratio) * std::pow(val, this->power);
+			return 0;
 		}
+		if (this->power == 0) {
+			return this->ratio;
+		} 
+		return (this->ratio) * std::pow(val, this->power);
 	}
 
 	auto operator<=>(const Element other) const
@@ -183,11 +185,11 @@ std::vector<double> solve_polynomial(const std::vector<Element>& polynomial,
 
 	while (solve <= x_range.second) {
 		for (auto const ele : polynomial) {
-			result += ele * solve;
+			result += (ele * solve);
 		}
 		if constexpr (is_debug) std::print("x is {}, result is {}\n", solve, result);
 		if (result == 0) {
-			if constexpr (is_debug) std::print("result {} added!\n", result);
+			if constexpr (is_debug) std::print("Solve {} added!\n", result);
 			solve_stack.push_back(solve);
 		}
 		result = 0;
