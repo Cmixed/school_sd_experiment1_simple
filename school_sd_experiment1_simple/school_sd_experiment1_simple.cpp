@@ -1,6 +1,6 @@
 ﻿import std;
 
-bool constexpr  is_debug{ true };
+bool constexpr  is_debug{ false };
 //x^3 -7x^2 +15x -9 = 0;
 //1 4	
 
@@ -17,7 +17,7 @@ public:
 	[[nodiscard]] double value(const double val) const
 	{
 		if ((this->ratio) == 0) return 0;
-		if (val == 0) return 0;
+		if (val == 0 && (this->power) != 0) return 0;
 		if ((this->power) == 0) return (this->ratio);
 		return (this->ratio) * std::pow(val, this->power);
 	}
@@ -73,7 +73,8 @@ int main() {
 		std::println("Input Error! Try Again!");
 	}
 
-	std::println("x_range is: {} {}", x_range.first, x_range.second);
+	if constexpr (is_debug) 
+		std::println("x_range is: {} {}", x_range.first, x_range.second);
 
     std::vector<std::string> const terms = extract_terms(equation);
 	if constexpr (is_debug) test_equation(terms, equation);
@@ -81,9 +82,10 @@ int main() {
 	std::vector<Element> const polynomial{parse_terms(terms)};
 	if constexpr (is_debug) test_element(polynomial);
 
+	std::println("In range [{} {}]", x_range.first, x_range.second);
 	if (const auto answer{ solve_polynomial(polynomial, x_range) };
 		!answer.empty()) {
-		std::print("Solve is : ");
+		std::print("Answer is : ");
 		for (auto val : answer) {
 			std::print("{} ", val);
 		}
@@ -117,10 +119,6 @@ std::vector<std::string> extract_terms(const std::string& equation) {
         terms.push_back(it->str());
         ++it;
     }
-
-	terms.erase(std::remove_if(terms.begin(), terms.end(), [](const std::string& term) {
-        return term.empty() || term.find('=') != std::string::npos;
-    }), terms.end());
 
     return terms;
 }
