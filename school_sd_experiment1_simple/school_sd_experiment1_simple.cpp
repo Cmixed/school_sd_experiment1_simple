@@ -1,6 +1,8 @@
 ﻿import std;
 
-// 2x^2 + 3x + 1 = 0;
+bool constexpr  is_debug{ true };
+//x^3 -7x^2 +15x -9 = 0;
+//1 4	
 
 /**
  * @brief 多项式元素结构体 1: 系数 2: 次数
@@ -14,12 +16,9 @@ public:
 
 	[[nodiscard]] double value(const double val) const
 	{
-		if (val == 0) {
-			return 0;
-		}
-		if (this->power == 0) {
-			return this->ratio;
-		} 
+		if ((this->ratio) == 0) return 0;
+		if (val == 0) return 0;
+		if ((this->power) == 0) return (this->ratio);
 		return (this->ratio) * std::pow(val, this->power);
 	}
 
@@ -37,9 +36,6 @@ public:
 	}
 
 };	
-
-bool constexpr  is_debug{ true };
-
 
 std::vector<std::string> extract_terms(const std::string& equation);
 std::vector<Element> parse_terms(const std::vector<std::string>& terms);
@@ -130,7 +126,7 @@ std::vector<std::string> extract_terms(const std::string& equation) {
 }
 
 /**
- * @brief 将各项格式成统一元素格式
+ * @brief 解析各项元素,提取成统一多项式
  * @param terms 
  * @return 
  */
@@ -172,7 +168,7 @@ std::vector<Element> parse_terms(const std::vector<std::string>& terms)
 }
 
 /**
- * 
+ * @brief 根据范围计算出解
  * @param polynomial 
  * @param x_range default {0, 0} 
  * @return 
