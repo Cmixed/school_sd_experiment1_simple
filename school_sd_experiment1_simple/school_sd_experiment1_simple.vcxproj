@@ -135,6 +135,9 @@
   <ItemGroup>
     <ClCompile Include="school_sd_experiment1_simple.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="test_data.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
